@@ -6,8 +6,10 @@ def main():
     # root = tk.Tk()
     # root.withdraw()
     # file_path = filedialog.askdirectory()
-    file_path = 'C:/Users/lasia/Documents/workspace/MercerLab/MercerLabCollection/resources'
-    parser = Parser.FolderParser(file_path)
+    read = 'C:/Users/lasia/Documents/workspace/MercerLab/MercerLabCollection/resources'
+    write = 'C:/Users/lasia/Desktop/Output'
+    products = '5'
+    parser = Parser.FolderParser(read, write, products)
     parser.parse()
 
 

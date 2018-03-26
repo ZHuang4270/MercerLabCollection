@@ -1,26 +1,52 @@
 import glob
 import os
+
 """
 @author Lasia Lo
 """
 
 
+
+
 class FolderParser:
-    """Parses through a folder
+    # """Parses through a folder
+    #
+    #    Attributes:
+    #         read : Name of folderpath to parse
+    #         write : Name of folderpath to write to
+    #         products: List of products to identiy
+    # """
 
-       Attributes:
-            folder : Name of folder to parse
-    """
-    def __init__(self,foldername):
-        self.folderpath = glob.glob(foldername + '/*.FNA')
+    def __init__(self, read, write, product):
+        self.read = glob.glob(read + '/*.FNA')
+        self.write = write
+        self.products = product
 
-    def store_name(self):
-        
+    # def is_product(self):
+
     def parse(self):
-        print(self.folderpath)
-        for f in self.folderpath:
-            filename = os.path.basename(f)
-            print(os.path.splitext(filename)[0])
+        for f in self.read:
+            self.create_folder(f)
 
-            file =
+            file = open(f, 'r')
+
+            # for line in file:
+            #     line = line.split()
+            #     if line.__contains__()
+            #     if self.is_header(line):
+            #         print(line)
+            #         print(line.split())
+            #         print('------------')
+
+    def create_folder(self, filename):
+        filename = os.path.basename(filename)
+        filename = os.path.splitext(filename)[0]
+        directory = self.write + '/' + filename
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        for s in self.products:
+            
+    def is_header(self, line):
+        return line[0] == '>'
+
 
