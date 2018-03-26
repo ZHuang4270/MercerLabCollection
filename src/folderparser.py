@@ -1,12 +1,6 @@
 import glob
 import os
 
-"""
-@author Lasia Lo
-"""
-
-
-
 
 class FolderParser:
     # """Parses through a folder
@@ -44,9 +38,10 @@ class FolderParser:
         directory = self.write + '/' + filename
         if not os.path.exists(directory):
             os.makedirs(directory)
-        for s in self.products:
-            
+            # for s in self.products:
+
     def is_header(self, line):
         return line[0] == '>'
 
-
+def why():
+    print("why")

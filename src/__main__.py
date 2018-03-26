@@ -1,4 +1,4 @@
-import Parser
+import folderparser
 import tkinter as tk
 from tkinter import filedialog
 
@@ -9,7 +9,7 @@ def main():
     read = 'C:/Users/lasia/Documents/workspace/MercerLab/MercerLabCollection/resources'
     write = 'C:/Users/lasia/Desktop/Output'
     products = '5'
-    parser = Parser.FolderParser(read, write, products)
+    parser = p.FolderParser(read, write, products)
     parser.parse()
 
 
