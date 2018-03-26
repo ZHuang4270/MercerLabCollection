@@ -1,4 +1,4 @@
-import folderparser
+import folderparser as p
 import tkinter as tk
 from tkinter import filedialog
 
