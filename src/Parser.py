@@ -1,6 +1,5 @@
-import os
 import glob
-
+import os
 """
 @author Lasia Lo
 """
@@ -13,13 +12,15 @@ class FolderParser:
             folder : Name of folder to parse
     """
     def __init__(self,foldername):
-        self.folder = glob.glob(foldername)
+        self.folderpath = glob.glob(foldername + '/*.FNA')
 
+    def store_name(self):
+        
     def parse(self):
+        print(self.folderpath)
+        for f in self.folderpath:
+            filename = os.path.basename(f)
+            print(os.path.splitext(filename)[0])
 
-        print(os.getcwd())
-        # for f in myfolder
-        #     file = open(f, 'r')
+            file =
 
-
-print("asdsadsad")
