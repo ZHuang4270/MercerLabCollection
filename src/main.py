@@ -73,6 +73,12 @@ def main():
     parser.parse()
     exit()
 
-
 if __name__ == "__main__":
     main()
+
+# TODO:
+# Print search results
+# Print suggested header
+# Prompt user for the host
+    #Figure out the hosts???
+# Threading???
