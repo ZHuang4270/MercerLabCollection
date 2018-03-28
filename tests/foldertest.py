@@ -19,8 +19,5 @@ class FolderTest(unittest.TestCase):
         write = 'C:/Users/lasia/Desktop/TestOutput'
         products = ''
 
-
-
-
 if __name__ == '__main__':
     unittest.main()
