@@ -29,7 +29,6 @@ class FolderParser:
                 if is_header(line):
                     product = self.find_product(line)
                 if product != 'NULL':
-                    print(line)
                     self.search.make_file_name(product)
                     self.write(line, folder)
 
@@ -59,9 +58,10 @@ class FolderParser:
     def write(self, line, folder):
         write_path = folder + '/' + self.search.file + '.FNA'
         file = open(write_path, 'a+')
-        if is_header(line):
-            line = self.search.make_header(line)
+        # if is_header(line):
+        #     line = self.search.make_header(line)
         file.write(line)
+
 
 def is_header(line):
     return line[0] == '>'
