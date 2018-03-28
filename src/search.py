@@ -1,4 +1,6 @@
 import requests
+import re
+from bs4 import BeautifulSoup
 
 class Search:
     """
@@ -21,7 +23,13 @@ class Search:
 
     def search(self, key):
         url = "https://www.ncbi.nlm.nih.gov/gene/?term=" + key
-        page = requests
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        string = soup.find('div', 'sensor_content')
+        string = string.find('a')
+        string = string.contents[0]
+        string = string[:string.find(',')]
+        return string
 
     def make_header(self, line):
         pass
