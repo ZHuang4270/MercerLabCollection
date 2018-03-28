@@ -72,7 +72,6 @@ def find_key(file):
         key += s
     return key
 
-
 def name(result):
     return result[0] + '_' + result[1]
 
@@ -84,8 +83,8 @@ def initial(result):
 def strain(result):
     index = result.index('str.') if 'str.' in result else -1
     if index != -1:
-        return result[index + 1]
-    return result[-1]
+        return result[index + 1].upper()
+    return result[-1].upper()
 
 
 def location(line):

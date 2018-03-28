@@ -12,7 +12,6 @@ class FolderParser:
             products: List of products to identiy
             search : Encapsulates search results
     """
-
     def __init__(self, read, write, products):
         self.read = glob.glob(read + '/*.FNA')
         self.write_path = write
@@ -31,7 +30,6 @@ class FolderParser:
                 if product != 'NULL':
                     self.search.make_file_name(product)
                     self.write(line, folder, product)
-            break
 
     def find_product(self, line):
         to_return = 'NULL'
@@ -53,13 +51,13 @@ class FolderParser:
     def clear(self, directory):
         for p in self.products:
             self.search.make_file_name(p)
-            write_path = directory + self.search.make_file_name(p) + '.FNA'
+            write_path = directory + self.search.make_file_name(p) + '.fasta'
             print(write_path)
             file = open(write_path, 'w')
             file.write('')
 
     def write(self, line, folder, product):
-        write_path = folder + self.search.make_file_name(product) + '.FNA'
+        write_path = folder + self.search.make_file_name(product) + '.fasta'
         file = open(write_path, 'a+')
         if is_header(line):
             line = self.search.make_header(line, product)
