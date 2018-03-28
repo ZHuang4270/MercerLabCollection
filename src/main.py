@@ -2,9 +2,14 @@ import folderparser as p
 import tkinter as tk
 from tkinter import filedialog
 
+read = None
+write = None
+products = None
+
 def exit():
     print('***Program finished***')
     quit()
+
 
 def choose_file():
     root = tk.Tk()
@@ -17,19 +22,56 @@ def choose_file():
         exit()
     return file
 
+def ask():
+    while (True):
+        string = input()
+        if string.upper() == 'Y':
+            return True
+        if string.upper() == 'N':
+            return False
+        else:
+            print('Sorry, I didn\'t understand what you inputted')
+
+def prompt():
+    global read
+    global write
+    global products
+
+    file = open('Mercer_recent', 'r+')
+    read = file.readline().strip()
+    write = file.readline().strip()
+    products = file.readline()
+    if read:
+        print('\nWant to use recent read folder? [y/n]')
+        print('Read Folder: ' + read)
+        if not ask():
+            print('Choose a folder to read from:')
+            read = choose_file()
+
+        print('\nWant to use recent write folder? [y/n]')
+        print('Write Folder: ' + write)
+        if not ask():
+            print('Choose a folder to write to:')
+            write = choose_file()
+
+        print('\nWant to use recent product numbers? [y/n]')
+        print('Products: ' + products)
+        products = products.split()
+        if not ask():
+            products = input('Type in the product numbers you want to search for separate by a space\n')
+            products = products.split()
+
+def record_recent():
+    file = open('Mercer_recent', 'w')
+    file.write(read + '\n' + write + '\n' + " ".join(products))
+
 
 def main():
-    print('Choose a folder to read from:')
-    read = choose_file()
-    print('Choose a folder to write to:')
-    write = choose_file()
-    products = input('Type in what products you want to search for separate by a space\n')
-    products = products.split()
-    # read ='C:/Users/lasia/Documents/workspace/MercerLab/MercerLabCollection/resources'
-    # write = 'C:/Users/lasia/Desktop/Output'
-    # products = '5'
+    prompt()
+    record_recent()
     parser = p.FolderParser(read, write, products)
     parser.parse()
+    exit()
 
 
 if __name__ == "__main__":
