@@ -20,7 +20,6 @@ class Search:
         self.result = self.search(self.key)
         self.header = self.make_header(None, None)
         self.folder = self.make_folder_name()
-        self.file = self.make_folder_name()
 
     def search(self, key):
         url = "https://www.ncbi.nlm.nih.gov/gene/?term=" + key
@@ -41,24 +40,25 @@ class Search:
             header += initial(result) + '_'
             header += strain(result) + '_'
             header += prompt()
+            print(header)
             return header
-        header = '>'+self.header
+        header = '>' + self.header
         header += '_' + product + 'S'
-        header += ' ' + name(result) + '_' + strain(result)
+        header += ' ' + self.make_folder_name()
         header += ' ' + self.key + location(line)
         header += ' ' + self.key + '\n'
         return header
 
     def make_folder_name(self):
-        return "foldername"
+        result = self.result.split()
+        return name(result) + '_' + strain(result)
 
     def make_file_name(self, product):
-        # x = 'n_'
-        # if folder.find('_NA_') != -1:
-        #     x = 'e_'
-        # filename = writefile + 'S' + x + folder
-        self.file = 'filename' + product
-        return self.file
+        x = 'n_'
+        if self.header.find('_NA_') != -1:
+            x = 'e_'
+        file = product + 'S' + x + self.folder
+        return file
 
 
 def find_key(file):

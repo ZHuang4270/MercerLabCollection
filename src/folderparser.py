@@ -27,7 +27,6 @@ class FolderParser:
             product = 'NULL'
             for line in file:
                 if is_header(line):
-                    print(line)
                     product = self.find_product(line)
                 if product != 'NULL':
                     self.search.make_file_name(product)
@@ -47,23 +46,24 @@ class FolderParser:
         directory = self.write_path + '/' + folder_name
         if not os.path.exists(directory):
             os.makedirs(directory)
+        directory += '/'
         self.clear(directory)
         return directory
 
     def clear(self, directory):
         for p in self.products:
             self.search.make_file_name(p)
-            write_path = directory + '/' + self.search.file + '.FNA'
+            write_path = directory + self.search.make_file_name(p) + '.FNA'
+            print(write_path)
             file = open(write_path, 'w')
             file.write('')
 
     def write(self, line, folder, product):
-        write_path = folder + '/' + self.search.file + '.FNA'
+        write_path = folder + self.search.make_file_name(product) + '.FNA'
         file = open(write_path, 'a+')
         if is_header(line):
             line = self.search.make_header(line, product)
         file.write(line)
-
 
 def is_header(line):
     return line[0] == '>'
