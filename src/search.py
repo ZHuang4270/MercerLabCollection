@@ -37,16 +37,16 @@ class Search:
         result = self.result.split()
         if line == None:
             print(self.result)
-
             print(name(result))
             header += initial(result) + '_'
             header += strain(result) + '_'
             header += prompt()
             return header
+        header = '>'+self.header
         header += '_' + product + 'S'
         header += ' ' + name(result) + '_' + strain(result)
         header += ' ' + self.key + location(line)
-        header += ' ' + self.key
+        header += ' ' + self.key + '\n'
         return header
 
     def make_folder_name(self):
@@ -89,14 +89,15 @@ def strain(result):
 
 
 def location(line):
-    regex = '(?<=location=).*(?=])'
+    regex = '(?<=location=).*(?=] )'
+    cregex = '(?<=\().*(?=\))'
+    re.compile(regex)
     m = re.search(regex, line)
-    if m:
-        location = m.group(1)
-    print(location)
-    # if line.find('location') != -1:
-    #     to_return = p
-    return 'asd'
+    location = m.group(0)
+    if location.startswith('complement'):
+        location = re.search(cregex, location).group(0)
+        return 'c' + location
+    return location
 
 
 def prompt():

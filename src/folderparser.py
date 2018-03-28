@@ -27,10 +27,12 @@ class FolderParser:
             product = 'NULL'
             for line in file:
                 if is_header(line):
+                    print(line)
                     product = self.find_product(line)
                 if product != 'NULL':
                     self.search.make_file_name(product)
                     self.write(line, folder, product)
+            break
 
     def find_product(self, line):
         to_return = 'NULL'
