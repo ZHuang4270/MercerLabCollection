@@ -7,6 +7,7 @@ write = None
 products = None
 
 def exit():
+    print()
     print('***Program finished***')
     quit()
 

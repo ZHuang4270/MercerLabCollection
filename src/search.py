@@ -24,7 +24,7 @@ class Search:
     def search(self, key):
         url = "https://www.ncbi.nlm.nih.gov/gene/?term=" + key
         print()
-        print('Connecting...')
+        print('Searching for ' + key + ' ...')
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
         tag = soup.find('div', 'sensor_content')

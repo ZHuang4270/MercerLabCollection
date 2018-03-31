@@ -35,7 +35,7 @@ class FolderParser:
     def find_product(self, line):
         to_return = 'NULL'
         for p in self.products:
-            key = 'product=' + p + 'S'
+            key = 'product=' + p
             if line.find(key) != -1:
                 to_return = p
         return to_return
