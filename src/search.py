@@ -9,10 +9,10 @@ class Search:
     Encapsulates search results
 
     Attributes:
-        result :
-        header :
-        folder :
-        file :
+        result : Result of search
+        header : Header made by search
+        folder : Folder path
+        file : File path
     """
 
     def __init__(self, file):
@@ -31,7 +31,7 @@ class Search:
         tag = tag.find('a')
         result = tag.contents[0]
         result = result[:result.find(',')]
-        print('')
+        print()
         print('Search results: ' + result)
         return result
 
