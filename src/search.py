@@ -46,7 +46,7 @@ class Search:
         header = '>' + self.header
         header += '_' + product
         header += ' ' + self.make_folder_name()
-        header += ' ' + self.key + location(line)
+        header += ' ' + self.key + ":" + location(line)
         header += ' ' + self.key + '\n'
         return header
 
@@ -62,8 +62,8 @@ class Search:
         return file
 
     def prompt(self, header):
-        temp_header = header + '??' + ' ' + self.make_folder_name()
-        print('Suggested header: ' + header)
+        temp_header = header + ' ' + self.make_folder_name()
+        print('Suggested header: ' + temp_header)
         print('Use suggested header? [y/n]')
         if ask():
             while True:
