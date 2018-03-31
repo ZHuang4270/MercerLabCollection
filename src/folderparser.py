@@ -30,6 +30,7 @@ class FolderParser:
                 if product != 'NULL':
                     self.search.make_file_name(product)
                     self.write(line, folder, product)
+            print('File finished')
 
     def find_product(self, line):
         to_return = 'NULL'
@@ -52,7 +53,7 @@ class FolderParser:
         for p in self.products:
             self.search.make_file_name(p)
             write_path = directory + self.search.make_file_name(p) + '.fasta'
-            print(write_path)
+            print('Writing to: ' + write_path)
             file = open(write_path, 'w')
             file.write('')
 

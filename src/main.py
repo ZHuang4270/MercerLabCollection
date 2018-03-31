@@ -54,11 +54,11 @@ def prompt():
             print('Choose a folder to write to:')
             write = choose_file()
 
-        print('\nWant to use recent product numbers? [y/n]')
+        print('\nWant to use recent products? [y/n]')
         print('Products: ' + products)
         products = products.split()
         if not ask():
-            products = input('Type in the product numbers you want to search for separate by a space\n')
+            products = input('Type in the products you want to search for separate by a space\n')
             products = products.split()
 
 def record_recent():

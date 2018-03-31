@@ -23,27 +23,28 @@ class Search:
 
     def search(self, key):
         url = "https://www.ncbi.nlm.nih.gov/gene/?term=" + key
+        print()
+        print('Connecting...')
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
         tag = soup.find('div', 'sensor_content')
         tag = tag.find('a')
         result = tag.contents[0]
         result = result[:result.find(',')]
+        print('')
+        print('Search results: ' + result)
         return result
 
     def make_header(self, line, product):
         header = ''
         result = self.result.split()
         if line == None:
-            print(self.result)
-            print(name(result))
             header += initial(result) + '_'
             header += strain(result) + '_'
-            header += prompt()
-            print(header)
+            header += self.prompt(header)
             return header
         header = '>' + self.header
-        header += '_' + product + 'S'
+        header += '_' + product
         header += ' ' + self.make_folder_name()
         header += ' ' + self.key + location(line)
         header += ' ' + self.key + '\n'
@@ -57,8 +58,26 @@ class Search:
         x = 'n_'
         if self.header.find('_NA_') != -1:
             x = 'e_'
-        file = product + 'S' + x + self.folder
+        file = product + x + self.folder
         return file
+
+    def prompt(self, header):
+        temp_header = header + '??' + ' ' + self.make_folder_name()
+        print('Suggested header: ' + header)
+        print('Use suggested header? [y/n]')
+        if ask():
+            while True:
+                host = input('Input host:')
+                print('Header: ' + header + host + ' ' + self.make_folder_name())
+                print('Are you sure you want this header? [y/n]')
+                if ask():
+                    return header + host
+        while True:
+            header = input('Input header:')
+            print('Header: ' + header)
+            print('Are you sure you want this header? [y/n]')
+            if ask():
+                return header
 
 
 def find_key(file):
@@ -67,10 +86,10 @@ def find_key(file):
     key = 'NC_'
     for s in line:
         if s == '_':
-            print(s)
             break
         key += s
     return key
+
 
 def name(result):
     return result[0] + '_' + result[1]
@@ -99,5 +118,12 @@ def location(line):
     return location
 
 
-def prompt():
-    return ''
+def ask():
+    while (True):
+        string = input()
+        if string.upper() == 'Y':
+            return True
+        if string.upper() == 'N':
+            return False
+        else:
+            print('Sorry, I didn\'t understand what you inputted')
