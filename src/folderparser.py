@@ -20,6 +20,7 @@ class FolderParser:
 
     def parse(self):
         for f in self.read:
+            nf = os.path.basename(f)
             file = open(f, 'r')
             self.search = s.Search(file)
             folder = self.create_folder()
@@ -30,6 +31,8 @@ class FolderParser:
                 if product != 'NULL':
                     self.search.make_file_name(product)
                     self.write(line, folder, product)
+            file.close()
+            os.rename(f, folder + nf)
             print('File finished')
 
     def find_product(self, line):

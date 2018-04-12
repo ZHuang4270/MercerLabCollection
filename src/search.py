@@ -41,7 +41,7 @@ class Search:
         if line == None:
             header += initial(result) + '_'
             header += strain(result) + '_'
-            header += self.prompt(header)
+            header = self.prompt(header)
             return header
         header = '>' + self.header
         header += '_' + product
@@ -62,13 +62,13 @@ class Search:
         return file
 
     def prompt(self, header):
-        temp_header = header + ' ' + self.make_folder_name()
+        temp_header = header + 'xx_xx ' + self.make_folder_name()
         print('Suggested header: ' + temp_header)
         print('Use suggested header? [y/n]')
         if ask():
             while True:
                 host = input('Input host:')
-                print('Header: ' + header + host + ' ' + self.make_folder_name())
+                print('Header: ' + header + host + '_xx ' + self.make_folder_name())
                 print('Are you sure you want this header? [y/n]')
                 if ask():
                     return header + host
@@ -96,14 +96,15 @@ def name(result):
 
 
 def initial(result):
-    return result[0][0].upper() + result[1][0:2].lower()
+    result = result[0][0].upper() + result[1][0:2].lower()
+    return result.replace('-','.')
 
 
 def strain(result):
     index = result.index('str.') if 'str.' in result else -1
     if index != -1:
         return result[index + 1].upper()
-    return result[-1].upper()
+    return result[-1].upper().replace('-','.')
 
 
 def location(line):
@@ -112,6 +113,7 @@ def location(line):
     re.compile(regex)
     m = re.search(regex, line)
     location = m.group(0)
+    location = location.replace("..", "-")
     if location.startswith('complement'):
         location = re.search(cregex, location).group(0)
         return 'c' + location
