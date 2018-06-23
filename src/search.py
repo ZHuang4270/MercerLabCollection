@@ -5,8 +5,9 @@ from bs4 import BeautifulSoup
 
 class Search:
     """
-    Searches the RNA and creates names
-    Encapsulates search results
+    Searches the RNA and creates names and
+    encapsulates search results. Will prompt
+    user to make changes
 
     Attributes:
         result : Result of search
@@ -18,7 +19,8 @@ class Search:
     def __init__(self, file):
         self.key = find_key(file)
         self.result = self.search(self.key)
-        self.header = self.make_header(None, None)
+        self.header = self.prompt()
+        self.custom = False
         self.folder = self.make_folder_name()
 
     def search(self, key):
@@ -36,16 +38,15 @@ class Search:
         return result
 
     def make_header(self, line, product):
-        header = ''
-        result = self.result.split()
-        if line == None:
-            header += initial(result) + '_'
-            header += strain(result) + '_'
-            header = self.prompt(header)
-            return header
-        header = '>' + self.header
-        header += '_' + product
-        header += ' ' + self.make_folder_name()
+        if self.custom:
+            temp = self.header.split()
+            header = '>' + temp[0]
+            header += '_' + product
+            header += ' ' + temp[1]
+        else:
+            header = '>' + self.header
+            header += '_' + product
+            header += ' ' + self.make_folder_name()
         header += ' ' + self.key + ":" + location(line)
         header += ' ' + self.key + '\n'
         return header
@@ -61,22 +62,22 @@ class Search:
         file = product + x + self.folder
         return file
 
-    def prompt(self, header):
+    def prompt(self):
+        result = self.result.split()
+        header = initial(result) + '_' + strain(result) + '_'
         temp_header = header + 'xx_xx ' + self.make_folder_name()
         print('Suggested header: ' + temp_header)
-        print('Use suggested header? [y/n]')
-        if ask():
+        if ask('Use suggested header?'):
             while True:
                 host = input('Input host:')
                 print('Header: ' + header + host + '_xx ' + self.make_folder_name())
-                print('Are you sure you want this header? [y/n]')
-                if ask():
+                if ask('Are you sure you want this header?'):
                     return header + host
         while True:
             header = input('Input header:')
             print('Header: ' + header)
-            print('Are you sure you want this header? [y/n]')
-            if ask():
+            if ask('Are you sure you want this header?'):
+                self.custom = True
                 return header
 
 
@@ -120,7 +121,9 @@ def location(line):
     return location
 
 
-def ask():
+def ask(question):
+    if question:
+        print(question + ' [y/n]')
     while (True):
         string = input()
         if string.upper() == 'Y':
