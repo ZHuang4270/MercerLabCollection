@@ -38,8 +38,7 @@ class FolderParser:
     def find_product(self, line):
         to_return = 'NULL'
         for p in self.products:
-            key = 'product=' + p
-            if line.find(key) != -1:
+            if line.find(p) != -1:
                 to_return = p
         return to_return
 
@@ -56,7 +55,7 @@ class FolderParser:
         for p in self.products:
             self.search.make_file_name(p)
             write_path = directory + self.search.make_file_name(p) + '.fasta'
-            print('Writing to: ' + write_path)
+            print('Writing to: {}'.format(write_path))
             file = open(write_path, 'w')
             file.write('')
 

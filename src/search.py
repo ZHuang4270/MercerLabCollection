@@ -17,65 +17,68 @@ class Search:
     """
 
     def __init__(self, file):
+        self.custom = False
         self.key = find_key(file)
         self.result = self.search(self.key)
         self.header = self.prompt()
-        self.custom = False
         self.folder = self.make_folder_name()
 
     def search(self, key):
         url = "https://www.ncbi.nlm.nih.gov/gene/?term=" + key
         print()
-        print('Searching for ' + key + ' ...')
+        print('Searching for {}...'.format(key))
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
         tag = soup.find('div', 'sensor_content')
-        tag = tag.find('a')
-        result = tag.contents[0]
-        result = result[:result.find(',')]
-        print()
-        print('Search results: ' + result)
-        return result
+        if (tag):
+            tag = tag.find('a')
+            result = tag.contents[0]
+            result = result[:result.find(',')]
+            print()
+            print('Search results: {}'.format(result))
+            return result
+        return 'No result found'
 
     def make_header(self, line, product):
         if self.custom:
             temp = self.header.split()
-            header = '>' + temp[0]
-            header += '_' + product
-            header += ' ' + temp[1]
+            header = '>{}_{} {}'.format(temp[0], product, temp[1])
         else:
-            header = '>' + self.header
-            header += '_' + product
-            header += ' ' + self.make_folder_name()
-        header += ' ' + self.key + ":" + location(line)
-        header += ' ' + self.key + '\n'
+            header = '>{}_{} {}'.format(self.header, product, self.make_folder_name())
+        # header += ' ' + self.key + ":" + location(line)
+        # header += ' ' + self.key + '\n'
+        header += ' {}:{} {} \n'.format(self.key, location(line), self.key)
         return header
 
     def make_folder_name(self):
-        result = self.result.split()
-        return name(result) + '_' + strain(result)
+        if self.custom:
+            result = self.header.split()
+            return result[1]
+        else:
+            result = self.result.split()
+            return '{}_{}'.format(name(result), strain(result))
 
     def make_file_name(self, product):
         x = 'n_'
-        if self.header.find('_NA_') != -1:
+        if self.header.find('_NA') == -1:
             x = 'e_'
         file = product + x + self.folder
         return file
 
     def prompt(self):
         result = self.result.split()
-        header = initial(result) + '_' + strain(result) + '_'
+        header = '{}_{}_'.format(initial(result), strain(result))
         temp_header = header + 'xx_xx ' + self.make_folder_name()
-        print('Suggested header: ' + temp_header)
+        print('Suggested header: {}'.format(temp_header))
         if ask('Use suggested header?'):
             while True:
                 host = input('Input host:')
-                print('Header: ' + header + host + '_xx ' + self.make_folder_name())
+                print('Header: {}{}_x {}'.format(header, host, self.make_folder_name()))
                 if ask('Are you sure you want this header?'):
                     return header + host
         while True:
             header = input('Input header:')
-            print('Header: ' + header)
+            print('Header: {}'.format(header))
             if ask('Are you sure you want this header?'):
                 self.custom = True
                 return header

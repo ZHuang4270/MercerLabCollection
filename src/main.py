@@ -48,15 +48,16 @@ def prompt():
         if not ask():
             print('Choose a folder to read from:')
             read = choose_file()
+            write = read
 
-        print('\nWant to use recent write folder? [y/n]')
-        print('Write Folder: ' + write)
-        if not ask():
-            print('Choose a folder to write to:')
-            write = choose_file()
+        # print('\nWant to use recent write folder? [y/n]')
+        # print('Write Folder: {}'.format(write))
+        # if not ask():
+        #     print('Choose a folder to write to:')
+        #     write = choose_file()
 
         print('\nWant to use recent products? [y/n]')
-        print('Products: ' + products)
+        print('Products: {}'.format(products))
         products = products.split()
         if not ask():
             products = input('Type in the products you want to search for separate by a space\n')
