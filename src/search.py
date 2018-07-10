@@ -112,7 +112,7 @@ def strain(result):
 
 
 def location(line):
-    regex = '(?<=location=).*(?=] )'
+    regex = '(?<=location=).*(?=])'
     cregex = '(?<=\().*(?=\))'
     re.compile(regex)
     m = re.search(regex, line)
