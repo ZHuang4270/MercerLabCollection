@@ -24,19 +24,22 @@ class Search:
         self.folder = self.make_folder_name()
 
     def search(self, key):
-        url = "https://www.ncbi.nlm.nih.gov/gene/?term=" + key
+        url = "https://www.ncbi.nlm.nih.gov/nuccore/" + key
         print()
         print('Searching for {}...'.format(key))
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
-        tag = soup.find('div', 'sensor_content')
-        if (tag):
+        tag = soup.find_all("h1")
+        if (tag[1] is not None):
+            print('Search results: {}'.format(tag[1].text.strip()))
+            return tag[1].text.strip()
+        """if (tag):
             tag = tag.find('a')
             result = tag.contents[0]
             result = result[:result.find(',')]
             print()
             print('Search results: {}'.format(result))
-            return result
+            return result"""
         return 'No result found'
 
     def make_header(self, line, product):
@@ -86,8 +89,12 @@ class Search:
 
 def find_key(file):
     line = file.readline()
-    line = line[8:]
-    key = 'NC_'
+    line = line[5:]
+    if line[0:2] == 'NZ':
+        key = 'NZ_'
+    else:
+        key = 'NC_'
+    line = line[3:]
     for s in line:
         if s == '_':
             break
