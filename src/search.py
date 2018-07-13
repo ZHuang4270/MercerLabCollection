@@ -113,9 +113,15 @@ def initial(result):
 
 def strain(result):
     index = result.index('str.') if 'str.' in result else -1
+    index = result.index("strain") if "strain" in result else -1
     if index != -1:
         return result[index + 1].upper()
-    return result[-1].upper().replace('-','.')
+    if "-" in result:
+        return result[2].replace('-','.')
+    else:
+        return result[2].strip() + result[3].strip()
+
+
 
 
 def location(line):
