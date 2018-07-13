@@ -128,6 +128,9 @@ def location(line):
     if location.startswith('complement'):
         location = re.search(cregex, location).group(0)
         return 'c' + location
+    '''in case the stuff after the location gets attached'''
+    if location.find("]") != -1:
+        location = location[:location.find("]")]
     return location
 
 
