@@ -114,12 +114,14 @@ def initial(result):
 def strain(result):
     index = result.index('str.') if 'str.' in result else -1
     index = result.index("strain") if "strain" in result else -1
+    value = ""
     if index != -1:
-        return result[index + 1].upper()
-    if "-" in result:
-        return result[2].replace('-','.')
+        value = result[index + 1]
+    elif "-" in " ".join(result):
+        value = result[2].replace('-','.')
     else:
-        return result[2].strip() + result[3].strip()
+        value = result[2].strip() + result[3].strip()
+    return value.replace(",", "").replace('-','.')
 
 
 
