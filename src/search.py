@@ -1,6 +1,8 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
 
 
 class Search:
@@ -68,10 +70,29 @@ class Search:
         file = product + x + self.folder
         return file
 
+    def suggest_host(self, key):
+        url = "https://www.ncbi.nlm.nih.gov/nuccore/" + key
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        driver = webdriver.Chrome(
+            executable_path=r'C:\Users\Zhong Huang (1)\Anaconda3\selenium\webdriver\chromedriver.exe',
+            chrome_options=chrome_options)
+        driver.get(url)
+        driver.maximize_window()
+        driver.implicitly_wait(3)
+        elem = driver.find_element_by_css_selector('pre')
+        if "rRNAs" in elem.text:
+            text = elem.text[elem.text.index("rRNAs"):]
+            return text[1:59]
+        return "Unable to determine number of rRNAs"
+
+
+
     def prompt(self):
         result = self.result.split()
         header = '{}_{}_'.format(initial(result), strain(result))
         temp_header = header + 'xx_xx ' + self.make_folder_name()
+        print(self.suggest_host(self.key))
         print('Suggested header: {}'.format(temp_header))
         if ask('Use suggested header?'):
             while True:
