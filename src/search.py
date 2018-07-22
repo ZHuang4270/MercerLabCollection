@@ -73,13 +73,14 @@ class Search:
     def suggest_host(self, key):
         url = "https://www.ncbi.nlm.nih.gov/nuccore/" + key
         chrome_options = Options()
+        chrome_options.add_argument('--log-level=3')
         chrome_options.add_argument("--headless")
         driver = webdriver.Chrome(
-            executable_path=r'C:\Users\Zhong Huang (1)\Anaconda3\selenium\webdriver\chromedriver.exe',
+            executable_path=r'C:\Users\***** (1)\Anaconda3\selenium\webdriver\chromedriver.exe',
             chrome_options=chrome_options)
         driver.get(url)
         driver.maximize_window()
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(5)
         elem = driver.find_element_by_css_selector('pre')
         if "rRNAs" in elem.text:
             text = elem.text[elem.text.index("rRNAs"):]
@@ -101,7 +102,7 @@ class Search:
                 if ask('Are you sure you want this header?'):
                     return header + host
         while True:
-            header = input('Input header:')
+            header = input('Input header like so {Org]_{Str}_{Host} {Genus}_{Species}_{Str}: ')
             print('Header: {}'.format(header))
             if ask('Are you sure you want this header?'):
                 self.custom = True
@@ -142,7 +143,7 @@ def strain(result):
         value = result[2].replace('-','.')
     else:
         value = result[2].strip() + result[3].strip()
-    return value.replace(",", "").replace('-','.')
+    return value.replace(",", "").replace('-','.').replace('complete', "").replace('chromosome', "")
 
 
 
